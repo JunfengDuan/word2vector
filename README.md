@@ -45,14 +45,14 @@ python3 remove_en_blank.py data/corpus.zhwiki.simplified.txt data/corpus.zhwiki.
 生成 corpus.zhwiki.simplified.done.txt （937.7M）
 
 - 分词
-这里以 空格 做分割符  `-d ' '`
+这里以空格做分割符  `-d ' '` 用时30分钟
 
 
 pip install jieba
 python3 -m jieba -d ' ' data/corpus.zhwiki.simplified.done.txt > data/corpus_zhwiki_seg.txt
 
 
-生成 `corpus.zhwiki.seg.txt` 901.3M
+生成 `corpus.zhwiki.seg.txt` 1.1G
 
 
 # 2.2 搜狗新闻语料处理
@@ -61,9 +61,10 @@ python3 sogou_corpus_seg.py data/corpus.sogou.txt data/corpus_sogou_seg.txt
 
 # 2.3 将百科数据和搜狗数据和并
 
+cat data/corpus_zhwiki_seg.txt data/corpus_sogou_seg.txt data/corpus_seg.txt
+
 
 # 3训练
-`model = Word2Vec(sentences, size=400, window=5, min_count=5, workers=4)`
 python3 train_word2vec_model.py corpus_seg.txt word2vec.model corpus.vector
 
 详细api参考：http://radimrehurek.com/gensim/models/word2vec.html
@@ -88,6 +89,7 @@ for word in result:
 著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
 
 ### 参考与致谢
+
 1. https://code.google.com/archive/p/word2vec/
 2. https://github.com/piskvorky/gensim
 3. http://radimrehurek.com/gensim/models/word2vec.html
@@ -95,6 +97,7 @@ for word in result:
 5. https://code.google.com/archive/p/opencc/wikis/Introduction.wiki
 6. http://licstar.net/archives/262
 7. http://www.52nlp.cn/
+8. https://github.com/zishuaiz/ChineseWord2Vec
 
 # inmport gensim 出现 ModuleNotFoundError: No module named '_bz2'
 1、on Ubuntu/Debian:
