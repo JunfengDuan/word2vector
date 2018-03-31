@@ -78,20 +78,9 @@ python3 train_word2vec_model.py data/corpus_seg.txt model/word2vec.model model/c
 
 # 4使用
 
-```python
-import gensim
-model = gensim.models.Word2Vec.load("word2vec.model")
-result = model.most_similar(u"警察")
-for word in result:
-  print(word[0],word[1]) 
-
-```
+python3 word2vec_test.py
 
 
-作者：七号萝卜
-链接：https://www.jianshu.com/p/6d542ff65b1e
-來源：简书
-著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
 
 ### 参考与致谢
 
