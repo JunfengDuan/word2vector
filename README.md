@@ -74,7 +74,7 @@ python3 train_word2vec_model.py data/corpus_seg.txt model/word2vec.model model/c
 
 详细api参考：http://radimrehurek.com/gensim/models/word2vec.html
 
-生成 word2vec.model
+生成 word2vec.model 56M
 
 # 4使用
 
