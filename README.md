@@ -56,16 +56,21 @@ python3 -m jieba -d ' ' data/corpus.zhwiki.simplified.done.txt > data/corpus_zhw
 
 
 # 2.2 搜狗新闻语料处理
-分词-用空格隔开
+分词-用空格隔开 用时40分钟
+corpus.sogou.txt 1.9G
+
 python3 sogou_corpus_seg.py data/corpus.sogou.txt data/corpus_sogou_seg.txt
 
-# 2.3 将百科数据和搜狗数据和并
+corpus_sogou_seg.txt 2.2G
 
-cat data/corpus_zhwiki_seg.txt data/corpus_sogou_seg.txt data/corpus_seg.txt
+
+# 2.3 将百科数据和搜狗数据和并
+用时2分钟
+cat data/corpus_zhwiki_seg.txt data/corpus_sogou_seg.txt > data/corpus_seg.txt
 
 
 # 3训练
-python3 train_word2vec_model.py corpus_seg.txt word2vec.model corpus.vector
+python3 train_word2vec_model.py data/corpus_seg.txt model/word2vec.model model/corpus.vector
 
 详细api参考：http://radimrehurek.com/gensim/models/word2vec.html
 

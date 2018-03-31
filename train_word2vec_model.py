@@ -6,8 +6,10 @@ import sys
 import multiprocessing
 from gensim.models import Word2Vec
 from gensim.models.word2vec import LineSentence
+import time
 
 if __name__ == '__main__':
+    tic = time.process_time()
     program = os.path.basename(sys.argv[0])
     logger = logging.getLogger(program)
 
@@ -25,4 +27,7 @@ if __name__ == '__main__':
                      workers=multiprocessing.cpu_count())
 
     model.save(outp1)
-    model.save_word2vec_format(outp2, binary=False)
+    model.wv.save_word2vec_format(outp2, binary=False)
+
+    toc = time.process_time()
+    print("\nComputation time = " + str((toc - tic)/60) + "min")
