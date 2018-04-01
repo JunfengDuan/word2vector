@@ -13,19 +13,45 @@
 
 # 1.获取语料库
 
-维基百科   https://dumps.wikimedia.org/zhwiki/latest/zhwiki-latest-pages-articles.xml.bz2
+# 1.1维基百科   https://dumps.wikimedia.org/zhwiki/latest/zhwiki-latest-pages-articles.xml.bz2
 原始语料文件：`zhwiki-latest-pages-articles.xml.bz2` 1.6G
-全网新闻数据(SogouCA) 'http://www.sogou.com/labs/resource/ca.php' 'news_tensite_xml.full.tar.gz' 746.3 M 
+
+# 1.2 SogouCA 全网新闻数据(SogouCA) http://www.sogou.com/labs/resource/ca.php 
+原始语料文件：'news_tensite_xml.full.tar.gz' 746.3 M 
+
 
 
 # 2.语料库预处理
-# 2.1 维基百科语料处理
+
+# 2.1 搜狗新闻语料处理
+来自若干新闻站点2012年6月—7月期间国内，国际，体育，社会，娱乐等18个频道的新闻数据，提供URL和正文信息
+格式说明：
+数据格式为
+<doc>
+<url>页面URL</url>
+<docno>页面ID</docno>
+<contenttitle>页面标题</contenttitle>
+<content>页面内容</content>
+</doc>
+注意：content字段去除了HTML标签，保存的是新闻正文文本
+
+刚下下来的语料是用gbk编码的，在mac或linux上都会呈乱码形式，需要将之转换为utf-8编码。而且我们只需要<content>里面的内容。因此先转换编码和获取content内容
+
+cat news_tensite_xml.dat | iconv -f gbk -t utf-8 -c | grep "<content>"  > corpus.sogou.txt
+
+生成 corpus.sogou.txt 1.9G
+分词-用空格隔开 用时40分钟
+
+python3 sogou_corpus_seg.py data/corpus.sogou.txt data/corpus_sogou_seg.txt
+
+生成 corpus_sogou_seg.txt 2.2G
+
+
+# 2.2 维基百科语料处理
 
 -gensim解析bz2语料
  
- 
 python3 parse_wiki_xml2txt.py data/zhwiki-latest-pages-articles.xml.bz2 data/corpus.zhwiki.txt
-
  
 生成 `corpus.zhwiki.txt` 1.1G 用时40分钟
  
@@ -56,16 +82,8 @@ python3 -m jieba -d ' ' data/corpus.zhwiki.simplified.done.txt > data/corpus_zhw
 生成 `corpus.zhwiki.seg.txt` 1.1G 用时30分钟
 
 
-# 2.2 搜狗新闻语料处理
-分词-用空格隔开 用时40分钟
-corpus.sogou.txt 1.9G
 
-python3 sogou_corpus_seg.py data/corpus.sogou.txt data/corpus_sogou_seg.txt
-
-corpus_sogou_seg.txt 2.2G
-
-
-# 2.3 将百科数据和搜狗数据和并
+# 2.3 将百科数据和搜狗数据和并到一个文件
 用时2分钟
 cat data/corpus_zhwiki_seg.txt data/corpus_sogou_seg.txt > data/corpus_seg.txt
 
