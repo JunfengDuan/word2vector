@@ -7,7 +7,7 @@ while True:
 
     line = input("请输入测试词:")  # 比如：御姐
     try:
-        result = model.most_similar(line)
+        result = model.most_similar(line, topn=10)
 
         for word in result:
             print(word[0], word[1])

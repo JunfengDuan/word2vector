@@ -14,7 +14,8 @@
 # 1.获取语料库
 
 维基百科   https://dumps.wikimedia.org/zhwiki/latest/zhwiki-latest-pages-articles.xml.bz2
-原始语料文件：`zhwiki-latest-pages-articles.xml.bz2`   wiki最后更新时间：06-Mar-2016 21:00  大小：1.6G
+原始语料文件：`zhwiki-latest-pages-articles.xml.bz2` 1.6G
+全网新闻数据(SogouCA) 'http://www.sogou.com/labs/resource/ca.php' 'news_tensite_xml.full.tar.gz' 746.3 M 
 
 
 # 2.语料库预处理
@@ -45,14 +46,14 @@ python3 remove_en_blank.py data/corpus.zhwiki.simplified.txt data/corpus.zhwiki.
 生成 corpus.zhwiki.simplified.done.txt （937.7M）
 
 - 分词
-这里以空格做分割符  `-d ' '` 用时30分钟
+这里以空格做分割符  `-d ' '` 
 
 
 pip install jieba
 python3 -m jieba -d ' ' data/corpus.zhwiki.simplified.done.txt > data/corpus_zhwiki_seg.txt
 
 
-生成 `corpus.zhwiki.seg.txt` 1.1G
+生成 `corpus.zhwiki.seg.txt` 1.1G 用时30分钟
 
 
 # 2.2 搜狗新闻语料处理
@@ -74,7 +75,7 @@ python3 train_word2vec_model.py data/corpus_seg.txt model/word2vec.model model/c
 
 详细api参考：http://radimrehurek.com/gensim/models/word2vec.html
 
-生成 word2vec.model 56M
+生成 word2vec.model 56M corpus.vector 4.1G 用时100分钟
 
 # 4使用
 
@@ -94,6 +95,8 @@ python3 word2vec_test.py
 8. https://github.com/zishuaiz/ChineseWord2Vec
 
 # inmport gensim 出现 ModuleNotFoundError: No module named '_bz2'
+# 解决方法
+
 1、on Ubuntu/Debian:
 
 sudo apt-get install libbz2-dev
@@ -107,4 +110,8 @@ sudo yum install bzip2-devel
 ./configure
 make
 sudo make install
+
+# 待优化
+1、增量训练，
+2、训练时数据按行喂给模型，避免内存占用过大
 
